@@ -1,0 +1,151 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Leo Fabric & Clothing</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial;background:#f8f5ee;color:#24231f}
+header{background:#171714;color:white;padding:20px;text-align:center}
+header h2{margin:0;color:#d6b477;font-family:Georgia,serif}
+nav{padding:14px;text-align:center;background:#292923}
+nav a{color:white;margin:0 9px;text-decoration:none;font-size:13px}
+.hero{background:#191a16;color:white;text-align:center;padding:65px 20px}
+.hero h1{font:44px Georgia,serif}
+.hero em{color:#d6b477}
+.hero p{line-height:1.8;color:#ddd}
+button,.btn{background:#c5a36b;color:#171714;border:0;
+padding:13px 20px;cursor:pointer;text-decoration:none}
+section{padding:35px 18px}
+h2{font-family:Georgia,serif}
+.center{text-align:center}
+.products{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.card{background:white;padding:10px;box-shadow:0 4px 15px #0001}
+.card img{width:100%;height:170px;object-fit:cover}
+.card h3{font-family:Georgia,serif}
+.price{color:#98743b;font-weight:bold}
+.tag{font-size:11px;color:#777}
+#contact{background:#eae3d6}
+input,textarea{display:block;width:100%;padding:13px;
+margin:10px 0;border:1px solid #ccc;font-size:15px}
+textarea{height:100px}
+footer{background:#171714;color:white;padding:25px;text-align:center}
+body.dark{background:#20211e;color:#f5f1e8}
+body.dark .card{background:#30312c}
+body.dark #contact{background:#292923}
+body.dark input,body.dark textarea{background:#30312c;color:white}
+</style>
+</head>
+<body>
+<header>
+<h2>LEO FABRIC</h2>
+<small>FABRIC & CLOTHING</small>
+</header>
+
+<nav>
+<a href="#home">Home</a>
+<a href="#shop">Shop</a>
+<a href="#about">About</a>
+<a href="#contact">Contact</a>
+</nav>
+
+<div class="hero" id="home">
+<p>TIMELESS STYLE • PREMIUM FABRICS</p>
+<h1>Wear Your<br><em>Own Story.</em></h1>
+<p>Discover beautiful fabrics and stylish clothing<br>
+made for your unique personality.</p>
+<a class="btn" href="#shop">Explore Collection →</a>
+</div>
+
+<section class="center">
+<h2>Welcome to Leo</h2>
+<p>Quality fabrics. Beautiful styles. Everyday elegance.</p>
+<button onclick="document.body.classList.toggle('dark')">
+☾ Dark / Light Mode
+</button>
+</section>
+
+<section id="shop">
+<h2 class="center">Our Collection</h2>
+<div class="products" id="products"></div>
+<p class="center">Bag: <b id="count">0</b> items</p>
+<button style="width:100%" onclick="order()">Enquire on WhatsApp</button>
+</section>
+
+<section id="about" class="center">
+<h2>Our Story</h2>
+<p>At Leo Fabric & Clothing, we believe great style
+starts with quality and attention to detail.</p>
+<p>Find fabrics and fashion that express who you are.</p>
+</section>
+
+<section id="contact">
+<h2>Contact Us</h2>
+<p>Tell us what fabric or clothing you need.</p>
+<form onsubmit="sendMessage(event)">
+<input id="name" placeholder="Your name" required>
+<input id="phone" type="tel" placeholder="Your phone number" required>
+<textarea id="message" placeholder="Your message" required></textarea>
+<button type="submit">Send Enquiry</button>
+</form>
+</section>
+
+<footer>
+<h3>LEO FABRIC & CLOTHING</h3>
+<p>Style that speaks for you.</p>
+<small>© 2026 Leo Fabric & Clothing</small>
+</footer>
+
+<script>
+const items=[
+{name:"Premium Cotton",price:1800,cat:"Fabric",
+img:"https://images.unsplash.com/photo-1528459801416-a9e53bbf4e17?auto=format&fit=crop&w=500&q=80"},
+{name:"Classic Linen",price:2400,cat:"Fabric",
+img:"https://images.unsplash.com/photo-1600166898405-da9535204843?auto=format&fit=crop&w=500&q=80"},
+{name:"Modern Clothing",price:4500,cat:"Clothing",
+img:"https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=500&q=80"},
+{name:"Elegant Style",price:5200,cat:"Clothing",
+img:"https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&w=500&q=80"}
+];
+let bag=[];
+document.getElementById("products").innerHTML=items.map((p,i)=>`
+<div class="card">
+<img src="${p.img}" alt="${p.name}" loading="lazy">
+<p class="tag">${p.cat}</p>
+<h3>${p.name}</h3>
+<p class="price">PKR ${p.price.toLocaleString()}</p>
+<button onclick="add(${i})">Add to Bag +</button>
+</div>`).join("");
+function add(i){
+bag.push(items[i]);
+document.getElementById("count").textContent=bag.length;
+}
+function order(){
+if(!bag.length){alert("Please add a product first.");return}
+let text="Hello Leo Fabric & Clothing! I am interested in:\n"+
+bag.map(p=>p.name+" - PKR "+p.price).join("\n");
+text+="\nPlease confirm availability.";
+contactWhatsApp(text);
+}
+function contactWhatsApp(text){
+/* Replace 923001234567 with your WhatsApp number.
+   Use country code without + or spaces. */
+const number="923001234567";
+if(number==="923001234567"){
+alert("Please add your own WhatsApp number in the code first.");
+return;
+}
+location.href="https://wa.me/"+number+"?text="+encodeURIComponent(text);
+}
+function sendMessage(e){
+e.preventDefault();
+let text="Hello Leo Fabric & Clothing!\nName: "+
+document.getElementById("name").value+
+"\nPhone: "+document.getElementById("phone").value+
+"\nMessage: "+document.getElementById("message").value;
+contactWhatsApp(text);
+}
+</script>
+</body>
+</html>
